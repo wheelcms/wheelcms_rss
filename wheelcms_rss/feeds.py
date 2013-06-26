@@ -55,6 +55,6 @@ class DefaultWheelFeed(RSS2WheelFeed):
 
 action_registry.register(RSS1WheelFeed.handler, RSS1WheelFeed.action)
 action_registry.register(RSS2WheelFeed.handler, RSS2WheelFeed.action)
-action_registry.register(DefaultWheelFeed.handler, RSS2WheelFeed.action)
+action_registry.register(DefaultWheelFeed.handler, DefaultWheelFeed.action)
 action_registry.register(AtomWheelFeed.handler, AtomWheelFeed.action)
 

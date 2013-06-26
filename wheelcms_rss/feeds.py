@@ -6,7 +6,7 @@ from wheelcms_axle.content import Content
 
 
 class WheelFeed(Feed):
-
+    """ Can we somehow (optionally) include the entire body? """
     def __init__(self, instance):
         super(WheelFeed, self).__init__()
         self.instance = instance
@@ -21,6 +21,7 @@ class WheelFeed(Feed):
         return self.instance.description
 
     def items(self):
+        ## expired, published.. default manager?
         return Content.objects.filter(node__path__startswith="/")
 
     def item_title(self, item):
@@ -48,9 +49,12 @@ class RSS2WheelFeed(WheelFeed):
 
     feed_type = feedgenerator.Rss201rev2Feed
 
+class DefaultWheelFeed(RSS2WheelFeed):
+    action = "rss"
+
 
 action_registry.register(RSS1WheelFeed.handler, RSS1WheelFeed.action)
 action_registry.register(RSS2WheelFeed.handler, RSS2WheelFeed.action)
-action_registry.register(RSS2WheelFeed.handler, RSS2WheelFeed.action)
+action_registry.register(DefaultWheelFeed.handler, RSS2WheelFeed.action)
 action_registry.register(AtomWheelFeed.handler, AtomWheelFeed.action)
 

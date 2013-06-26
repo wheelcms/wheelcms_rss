@@ -7,22 +7,24 @@ from wheelcms_axle.content import Content
 
 class WheelFeed(Feed):
     """ Can we somehow (optionally) include the entire body? """
-    def __init__(self, instance):
+    def __init__(self, spoke):
         super(WheelFeed, self).__init__()
-        self.instance = instance
+        self.spoke = spoke
 
     def link(self):
-        return self.instance.node.path + '/+' + self.action
+        return self.spoke.path() + '/+' + self.action
 
     def title(self):
-        return "Feed for %s" % self.instance.title
+        return "Feed for %s" % self.spoke.instance.title
 
     def description(self):
-        return self.instance.description
+        return self.spoke.instance.description
 
     def items(self):
-        ## expired, published.. default manager?
-        return Content.objects.filter(node__path__startswith="/")
+        if hasattr(self.spoke, 'feed'):
+            return self.spoke.feed()
+
+        return Content.objects.filter(node__path__startswith=self.spoke.path(), state="published").order_by("-created")
 
     def item_title(self, item):
         return item.title
@@ -32,7 +34,7 @@ class WheelFeed(Feed):
 
     @classmethod
     def handler(cls, handler, request, action):
-        return cls(handler.instance.content())(request)
+        return cls(handler.spoke())(request)
 
 class AtomWheelFeed(WheelFeed):
     action = "atom"

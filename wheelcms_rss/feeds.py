@@ -24,7 +24,10 @@ class WheelFeed(Feed):
         if hasattr(self.spoke, 'feed'):
             return self.spoke.feed()
 
-        return Content.objects.filter(node__path__startswith=self.spoke.path(), state="published").order_by("-created")
+        ## XXX Use Content object manager, once available
+        instance = self.spoke.instance
+
+        return Content.objects.filter(node__tree_path__startswith=instance.node.tree_path, language=instance.language, state="published").order_by("-created")
 
     def item_title(self, item):
         return item.title

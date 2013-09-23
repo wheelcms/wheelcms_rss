@@ -6,7 +6,7 @@ version = '0.8.1'
 setup(name='wheelcms_rss',
       version=version,
       description="WheelCMS RSS feed generator",
-      long_description=open("README.md").read().read(),
+      long_description=open("README.md").read(),
       classifiers=[
         "Programming Language :: Python",
         ],

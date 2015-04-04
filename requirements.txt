@@ -1,9 +1,7 @@
 twotest
 south
-django-haystack==1.2.7
 django-taggit
 django-tinymce
-django-userena
 stracks_api==0.2dev
 Pillow
 git+git://github.com/iivvoo/two.bootstrap
